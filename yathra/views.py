@@ -46,6 +46,7 @@ def user_login(request):
                 return HttpResponse("Your account is not active.")
         else:
             # messages.error(request,'Invalid login details supplied. Please try again')
+            return HttpResponse("Invalid login details supplied. Please try again")
             return HttpResponseRedirect(reverse('index'))
 
     else:
