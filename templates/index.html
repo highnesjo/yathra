@@ -150,7 +150,7 @@
                  <!-- <h5 class="card-title">Special title treatment</h5> -->
                  {% for j in reviews %}
                   {% if i.id == j.storyid %}
-                 <p class="card-text">{{ j.review }} . <i>{{j.user}}</i></p>
+                 <p class="card-text">{{ j.review }} . <i>{{j.user}}</i></p> <br>
                  <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                   {% endif %}
                  {% endfor %}
@@ -181,18 +181,20 @@
          </button>
        </div>
        <div class="modal-body">
-         <form>
+         <form action="{% url 'reviewadd' %}" method="POST">
+            {% csrf_token %}
             <div class="input-group">
                <div class="input-group-prepend">
                  <span class="input-group-text">Write your review</span>
                </div>
                <textarea class="form-control" aria-label="With textarea" name="review"></textarea>
+               <input type="hidden" name="storyid" value="{{i.id}}">
              </div>
-          </form>
        </div>
        <div class="modal-footer">
          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
          <button type="submit" class="btn btn-primary">Save</button>
+      </form>
        </div>
      </div>
    </div>

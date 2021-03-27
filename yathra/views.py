@@ -60,3 +60,12 @@ def user_logout(request):
     logout(request)
     # Return to homepage.
     return HttpResponseRedirect(reverse('index'))
+
+def reviewadd(request):
+    if request.method == 'POST' :
+        Review = review()
+        Review.user = request.user
+        Review.storyid = request.POST.get('storyid')
+        Review.review = request.POST.get('review')
+        Review.save()
+        return HttpResponseRedirect(reverse('index'))
