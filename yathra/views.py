@@ -69,3 +69,43 @@ def reviewadd(request):
         Review.review = request.POST.get('review')
         Review.save()
         return HttpResponseRedirect(reverse('index'))
+
+
+#-------------------------------------------Register----------------------------------------
+def register(request):
+
+    registered = False
+    if request.method == 'POST':
+
+        # Get info from "both" forms
+        user_form = UserForm(data=request.POST)
+
+        # Check to see both forms are valid
+        if user_form.is_valid():        
+            user = user_form.save(commit=False)
+
+            if User.objects.filter(email=user.email).exists() :
+                print('Already Exists!!')
+                return HttpResponse("Email id already exist!!")
+
+            else:
+
+                # Save User Form to Database
+                user = user_form.save()
+                # Hash the password
+                user.set_password(user.password)
+                # Update with Hashed password
+                user.save()              
+                # Registration Successful!
+                registered = True
+
+        else:
+            # One of the forms was invalid if this else gets called.
+            print(user_form.errors,profile_form.errors)
+
+    else:
+        # Was not an HTTP post so we just render the forms as blank.
+        user_form = UserForm()
+
+    return render(request,'register.html',{'user_form':user_form , 'registered' : registered })
+
